@@ -1,0 +1,128 @@
+<p>As you can see, there are three main components to the interface. Here's how each one should work:
+Meal Details (In the left most panel):
+-the user enters the base cost for a meal
+-the tax rate
+-and the tip percentage the customer wants to leave</br></p>
+
+<p>When they hit the submit button:
+-the app should validate that the value in each field is numeric.
+-If the form is valid, the Customer Charges and My Earnings Info section should update accordingly.</br><p>
+
+<p>Customer Charges:
+-This panel displays what the customer should be charged.
+-Subtotal is the value of the base meal price plus tax.
+-Tip is dollar value of the tip, given the subtotal and tip percentage.
+-Total is equal to subtotal plus tip.</br></p>
+
+<p>My Earnings Info:
+This panel displays cumulative information about all of the meals submitted so far.
+Tip-total is the sum of all tips computed so far.
+Meal count is the total number of meals input into the tool.
+Average tip per meal is equal to the total tip value divided by the number of meals.</br></p>
+
+<p>Note the "Reset" button in the bottom right of the interface:
+-When the user clicks this button, the app should return to its initial state
+-All of the cumulative info should reset.</br></p>
+
+<p>The "Cancel" button within the "Meal Details" area should only clear the inputs without effecting the Customer Charges or the My Earnings Info:
+As with the previous projects in this course, be sure to use Git for version control.
+And when you complete this project, push your master branch up to Github and create a gh-pages branch so you can share a working version of the page.
+Share a link to both the repo and the gh-page with your mentor and fellow students to get feedback.</br></p>
+
+<!DOCTYPE html>
+<html lang="en" ng-app="waitstaffApp">
+  <head>
+    <title>Waitstaff Calculator, power by Angular</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="css/main.css" media="screen">
+
+  </head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1 class="centered">Waitstaff Calculator<br><p class="small">Powered by Angular</p></h1>
+    </header>
+
+    <hr><br>
+
+    <section class="content">
+      <div class="row">
+        <div id="box" class="col-md-3 col-md-offset-1">
+          <!-- user inputs -->
+          <header>
+              <h2>Meal Details</h2>
+          </header>
+          <form name="inputForm" ng-controller="inputController" ng-submit()>
+            <div class="form-group">
+              <input class="form-input" type="number" placeholder="Meal Price: $" name="meal_price" id="meal_price" ng-model="input.meal_price" min="1" step=".01" required>
+            </div>
+            <div class="form-group">
+              <input class="form-input" type="number" placeholder="Tax Rate: %" name="tax_rate" id="tax_rate" ng-model="input.tax_rate" min="1" max="50" required>
+            </dv>
+            <div class="form-group">
+              <input class="form-input" type="number" placeholder="Tip Percentage: %" name="tip_percent" id="tip_percent" ng-model="input.tip_percent" min="1" max="50" required>
+            </div>
+            <input class="btn btn-default btn-sm" type="submit" value="Submit">
+            <input class="btn btn-default btn-sm" type="button" value="Clear" ng-Click="cancel()">
+          </form>
+        </div>
+
+        <!-- summary -->
+        <div class="col-md-6 col-md-offset-1">
+          <div class="row">
+            <!-- customer totals -->
+            <div class="col-md-6">
+              <header>
+                <h2 class="centered">Total Charges<br><p class="small">Charge per customer</p></h2>
+              </header>
+              <br>
+              <div class="customer-result" ng-controller="customerController">
+                <div class="form-group">
+                  <span class="subtitle">Subtotal:</span>
+                  <span class="result">{{customer.subtotal | number:2 | currency }}</span>
+                </div>
+                <div class="form-group">
+                  <span class="subtitle">Tip:</span>
+                  <span class="result">{{customer.tip | number:2 | currency}}</span>
+                </div>
+                <div class="form-group">
+                  <span class="subtitle">Total:</span>
+                  <span class="result">{{customer.total | number:2 | currency}}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- all totals -->
+            <div class="col-md-6">
+              <header>
+                <h2 class="centered">Total Earnings<p class="small">All time totals</p></h2>
+              </header>
+              <br>
+              <div class="waiter-result" ng-controller="earnController">
+                <div class="form-group">
+                  <span class="subtitle">Total Tips:</span>
+                  <span class="result">{{earn.tip_total | number:2 | currency}}</span>
+                </div>
+                <div class="form-group">
+                  <span class="subtitle">Meal count:</span>
+                  <span class="result">{{earn.meal_count}}</span>
+                </div>
+              </div>
+              <div ng-controller="resetController">
+                <input class="btn btn-default btn-sm" type="button" value="Reset" ng-click="reset()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- scripts -->
+  <script type="text/javascript" src="angular.min.js"></script>
+  <script type="text/javascript" src="js/main.js"</script>
+</body>
+</html>
